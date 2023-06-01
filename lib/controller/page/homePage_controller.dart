@@ -21,4 +21,8 @@ class HomePageController extends GetxController {
   void gotoProfile() {
     Get.toNamed(RouteConfig.profilePageRouteName);
   }
+
+  void gotoChatPage() {
+    Get.toNamed(RouteConfig.chatPageRouteName);
+  }
 }

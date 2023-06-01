@@ -14,7 +14,7 @@ class ProfilePage extends GetView<ProfileController> {
         title: const Text('Me'),
       ),
       body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 0.0),
+        padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 12.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.start,
@@ -54,30 +54,30 @@ class ProfilePage extends GetView<ProfileController> {
               height: 12.0,
             ),
             Obx(
-              () => InkWell(
-                onTap: () {
-                  controller.putIsNameEditActive(true);
-                },
-                child: !controller.isNameEditActive
-                    ? Flexible(
+              () => !controller.isNameEditActive
+                  ? Flexible(
+                      child: InkWell(
+                        onTap: () {
+                          controller.putIsNameEditActive(true);
+                        },
                         child: Text(
                           controller.nameTextController.text,
                           maxLines: 2,
                           overflow: TextOverflow.ellipsis,
                           style: Theme.of(context).textTheme.displayMedium,
                         ),
-                      )
-                    : TextFormField(
-                        controller: controller.nameTextController,
-                        onFieldSubmitted: (value) {
-                          controller.updateDisplayName(
-                              newName: controller.nameTextController.text);
-                          controller.putIsNameEditActive(false);
-                        },
-                        decoration:
-                            const InputDecoration(labelText: 'update name'),
                       ),
-              ),
+                    )
+                  : TextFormField(
+                      controller: controller.nameTextController,
+                      onFieldSubmitted: (value) {
+                        controller.updateDisplayName(
+                            newName: controller.nameTextController.text);
+                        controller.putIsNameEditActive(false);
+                      },
+                      decoration:
+                          const InputDecoration(labelText: 'update name'),
+                    ),
             ),
             const SizedBox(
               height: 8.0,

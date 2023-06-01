@@ -1,9 +1,11 @@
 import 'package:get/get.dart';
+import 'package:knockme/bindings/chat_binding.dart';
 import 'package:knockme/bindings/homePage_binding.dart';
 import 'package:knockme/bindings/profile_binding.dart';
 import 'package:knockme/bindings/signUp_binding.dart';
 import 'package:knockme/bindings/singIn_binding.dart';
 import 'package:knockme/bindings/splash_binding.dart';
+import 'package:knockme/view/pages/chat_page.dart';
 import 'package:knockme/view/pages/home_page.dart';
 import 'package:knockme/view/pages/sigin_page.dart';
 import 'package:knockme/view/pages/signUp_page.dart';
@@ -17,6 +19,7 @@ class RouteConfig {
   static const String singUpPageRouteName = '/singUpPage';
   static const String homePageRouteName = '/homePage';
   static const String profilePageRouteName = '/profilePage';
+  static const String chatPageRouteName = '/chatPage';
   static final pages = [
     GetPage(
         name: splashPageRouteName,
@@ -38,6 +41,11 @@ class RouteConfig {
         name: profilePageRouteName,
         page: () => const ProfilePage(),
         binding: ProfileBinding(),
+        transition: Transition.cupertino),
+    GetPage(
+        name: chatPageRouteName,
+        page: () => const ChatPage(),
+        binding: ChatBinding(),
         transition: Transition.cupertino),
   ];
 }

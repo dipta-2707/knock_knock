@@ -6,15 +6,15 @@ import '../../model/user_model.dart';
 
 class UserListTile extends StatelessWidget {
   final UserModel userModel;
-  const UserListTile({Key? key, required this.userModel}) : super(key: key);
+  final VoidCallback onClick;
+  const UserListTile({Key? key, required this.userModel, required this.onClick})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onLongPress: () {
-        print('long press');
-      },
-      onTap: () {},
+      onLongPress: () {},
+      onTap: onClick,
       child: ListTile(
         leading: ClipOval(
           child: Image.network(

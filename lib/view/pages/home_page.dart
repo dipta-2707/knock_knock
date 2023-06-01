@@ -34,6 +34,7 @@ class HomePage extends GetView<HomePageController> {
                         itemCount: snapshot.data!.size,
                         itemBuilder: (context, index) {
                           return UserListTile(
+                            onClick: () => controller.gotoChatPage(),
                             userModel: UserModel.fromJson(
                                 snapshot.data!.docs[index].data()),
                           );

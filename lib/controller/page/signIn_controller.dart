@@ -5,6 +5,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:knockme/api/api.dart';
 import 'package:knockme/config/route_config.dart';
 import 'package:knockme/ults/snack_bars.dart';
 
@@ -40,7 +41,9 @@ class SignInController extends GetxController {
 
       await FirebaseAuth.instance
           .signInWithEmailAndPassword(email: email, password: password)
-          .then((value) => gotoHomePage());
+          .then((value) {
+        gotoHomePage();
+      });
     } catch (e) {
       CustomSnackBar.showSnackBar(
           context: Get.context!,
@@ -72,8 +75,15 @@ class SignInController extends GetxController {
       // Once signed in, return the UserCredential
       await FirebaseAuth.instance
           .signInWithCredential(credential)
-          .then((value) {
-        gotoHomePage();
+          .then((value) async {
+        if ((await KnockApis.isUserExits())) {
+          gotoHomePage();
+        } else {
+          await KnockApis.createUserAccount(
+                  name:
+                      FirebaseAuth.instance.currentUser!.displayName ?? 'Nobie')
+              .then((value) => gotoHomePage());
+        }
       });
     } catch (e) {
       Get.snackbar(

@@ -7,6 +7,8 @@ import 'package:get/get.dart';
 import 'package:knockme/config/route_config.dart';
 import 'package:knockme/ults/snack_bars.dart';
 
+import '../../api/api.dart';
+
 class SignUpController extends GetxController {
   late TextEditingController _emailController;
   late TextEditingController _passwordController;
@@ -37,11 +39,13 @@ class SignUpController extends GetxController {
 
       await FirebaseAuth.instance
           .createUserWithEmailAndPassword(email: email, password: password)
-          .then((value) {
-        if (FirebaseAuth.instance.currentUser != null) {
-          FirebaseAuth.instance.currentUser!.updateDisplayName(displayName);
+          .then((value) async {
+        if ((await KnockApis.isUserExits())) {
+          gotoHomePage();
+        } else {
+          await KnockApis.createUserAccount(name: displayName)
+              .then((value) => gotoHomePage());
         }
-        gotoHomePage();
       });
     } catch (e) {
       CustomSnackBar.showSnackBar(

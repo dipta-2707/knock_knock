@@ -45,7 +45,7 @@ class SignInController extends GetxController {
         gotoHomePage();
       });
     } catch (e) {
-      CustomSnackBar.showSnackBar(
+      KnockSnackBar.showSnackBar(
           context: Get.context!,
           content: 'Error',
           snackBarType: SnackBarType.error);

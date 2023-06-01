@@ -52,6 +52,7 @@ class HomePage extends GetView<HomePageController> {
       // Callback that sets the selected popup menu item.
       onSelected: (item) {
         if (item == 0) {
+          controller.gotoProfile();
         } else if (item == 1) {
           controller.signOut();
         }

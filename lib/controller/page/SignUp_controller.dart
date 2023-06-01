@@ -48,7 +48,7 @@ class SignUpController extends GetxController {
         }
       });
     } catch (e) {
-      CustomSnackBar.showSnackBar(
+      KnockSnackBar.showSnackBar(
           context: Get.context!,
           content: 'sign up error',
           snackBarType: SnackBarType.error);

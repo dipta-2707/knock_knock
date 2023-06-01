@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:knockme/controller/page/homePage_controller.dart';
@@ -11,13 +12,23 @@ class HomePage extends GetView<HomePageController> {
     return Scaffold(
       appBar: AppBar(
         leading: const Icon(Icons.message_outlined),
-        title: const Text('Knock Knock'),
+        title: const Text('Knock Me'),
         actions: [_popUpMenu()],
       ),
-      body: ListView.builder(
-        itemCount: 15,
-        itemBuilder: (context, index) => WidgetUserTile(),
-      ),
+      body: StreamBuilder(
+          stream: FirebaseFirestore.instance.collection('users').snapshots(),
+          builder: (context, snapshot) {
+            if (snapshot.hasData) {
+              print('got data-------------------------');
+              for (var i in snapshot.data!.docs) {
+                print('data: ${i.data()}');
+              }
+            }
+            return ListView.builder(
+              itemCount: 15,
+              itemBuilder: (context, index) => WidgetUserTile(),
+            );
+          }),
     );
   }
 

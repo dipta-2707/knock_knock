@@ -28,7 +28,7 @@ class RouteConfig {
         binding: SignUpBinding()),
     GetPage(
         name: homePageRouteName,
-        page: () => const HomePage(),
+        page: () => HomePage(),
         binding: HomePageBinding()),
   ];
 }

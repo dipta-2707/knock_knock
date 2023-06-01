@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
 
 import '../../model/user_model.dart';
@@ -29,8 +31,21 @@ class UserListTile extends StatelessWidget {
                 color: Colors.green,
                 size: 10.0,
               )
-            : null,
+            : _timeBuilder(),
       ),
     );
+  }
+
+  _timeBuilder() {
+    String time = "";
+    final DateTime dateTime =
+        DateTime.fromMillisecondsSinceEpoch(int.parse(userModel.lastActive));
+
+    if (dateTime == DateTime.now()) {
+      time = dateTime.toString();
+    } else {
+      time = dateTime.toString();
+    }
+    return Text(time);
   }
 }

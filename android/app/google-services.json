@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "224936979792",
+    "project_id": "kncokme-d35b8",
+    "storage_bucket": "kncokme-d35b8.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:224936979792:android:118650e90bf61455fe9055",
+        "android_client_info": {
+          "package_name": "com.example.knockme"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "224936979792-3de7qpua03c0upc1mo2b915ks4cmn759.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.knockme",
+            "certificate_hash": "19c144c2c294433794e276fc4fd70e4d65e805cb"
+          }
+        },
+        {
+          "client_id": "224936979792-uujntcfbqbp8165n6odksi99co88sljm.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC51a-GMs-JR5qZFkLe8PNVM0Q9aObKxo4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "224936979792-5upbmpep1ik5nqef3nds6p5g344u78oh.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

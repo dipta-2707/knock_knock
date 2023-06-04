@@ -16,6 +16,7 @@ class HomePageController extends GetxController {
   }
 
   void signOut() {
+    //KnockApis.updateActiveStatus();
     FirebaseAuth.instance.signOut();
     gotoSignIn();
   }

@@ -24,7 +24,7 @@ class MessageWidget extends StatelessWidget {
           style: Theme.of(context)
               .textTheme
               .bodySmall!
-              .copyWith(color: Color(0xffbebebe)),
+              .copyWith(color: const Color(0xffbebebe)),
         ),
         Flexible(
           child: Container(
@@ -35,11 +35,11 @@ class MessageWidget extends StatelessWidget {
                   topLeft: Radius.circular(8.0),
                   topRight: Radius.circular(8.0),
                   bottomLeft: Radius.circular(8.0)),
-              color: const Color(0xff5fc9f8),
+              color: Color(0xff5fc9f8),
             ),
             child: Text(
               data.message,
-              style: TextStyle(color: Colors.white),
+              style: const TextStyle(color: Colors.white),
             ),
           ),
         ),
@@ -54,6 +54,7 @@ class MessageWidget extends StatelessWidget {
         Flexible(
           child: Container(
             padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 5.0),
+            margin: const EdgeInsets.symmetric(vertical: 4.0),
             decoration: const BoxDecoration(
               borderRadius: BorderRadius.only(
                   topLeft: Radius.circular(8.0),
@@ -68,7 +69,7 @@ class MessageWidget extends StatelessWidget {
           ),
         ),
         Text(
-          '12:03 am',
+          TimeConverter.getTime(data.sentTime),
           style: Theme.of(context)
               .textTheme
               .bodySmall!

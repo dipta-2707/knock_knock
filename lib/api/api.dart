@@ -61,6 +61,7 @@ class KnockApis {
       UserModel userModel) {
     return firestore
         .collection('chats/${getConversationId(userModel.id)}/messages/')
+        .orderBy('sentTime')
         .snapshots();
   }
 
@@ -81,7 +82,15 @@ class KnockApis {
         .set(body.toJson());
   }
 
-  // sent message -------------
+  // get last message
+  static Stream<QuerySnapshot<Map<String, dynamic>>> getLastMessage(
+      UserModel userModel) {
+    return firestore
+        .collection('chats/${getConversationId(userModel.id)}/messages/')
+        .orderBy('sentTime', descending: true)
+        .limit(1)
+        .snapshots();
+  }
 
   // -------------------------------- CREATE  ----------------------------------
   // create a new user
@@ -123,5 +132,13 @@ class KnockApis {
             snackBarType: SnackBarType.error);
       }
     }
+  }
+
+  // update active status ( when logout only)
+  static Future<void> updateActiveStatus() async {
+    await firestore
+        .collection('users/${currentUser.uid}')
+        .doc()
+        .set({'is_online': false});
   }
 }

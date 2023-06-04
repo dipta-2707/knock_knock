@@ -1,6 +1,7 @@
 import 'dart:ffi';
 
 import 'package:flutter/material.dart';
+import 'package:knockme/api/api.dart';
 import 'package:knockme/ults/time_converter.dart';
 
 import '../../model/user_model.dart';
@@ -25,7 +26,32 @@ class UserListTile extends StatelessWidget {
           ),
         ),
         title: Text(userModel.name),
-        subtitle: Text('hey. how are you?'),
+        subtitle: StreamBuilder(
+            stream: KnockApis.getLastMessage(userModel),
+            builder: (context, snapshot) {
+              switch (snapshot.connectionState) {
+                case ConnectionState.none:
+                case ConnectionState.waiting:
+                  return const SizedBox();
+                case ConnectionState.active:
+                case ConnectionState.done:
+                  if (snapshot.hasData) {
+                    if (snapshot.data!.docs.isNotEmpty) {
+                      return Text(
+                        snapshot.data!.docs[0].data()['message'],
+                        overflow: TextOverflow.fade,
+                        maxLines: 1,
+                        style: Theme.of(context)
+                            .textTheme
+                            .bodySmall!
+                            .copyWith(color: Colors.black54),
+                      );
+                    }
+                    return const SizedBox();
+                  }
+                  return const SizedBox();
+              }
+            }),
         trailing: userModel.isOnline
             ? const Icon(
                 Icons.circle,

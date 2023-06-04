@@ -59,40 +59,35 @@ class ChatPage extends GetView<ChatController> {
         child: Column(
           children: [
             Expanded(
-                child: Column(
-              children: [
-                SingleChildScrollView(
-                  child: StreamBuilder(
-                    stream: KnockApis.getAllMessages(userModel),
-                    builder: (context, snapshot) {
-                      switch (snapshot.connectionState) {
-                        case ConnectionState.waiting:
-                        case ConnectionState.none:
-                          return const Center(
-                            child: CircularProgressIndicator(),
-                          );
-                        case ConnectionState.done:
-                        case ConnectionState.active:
-                          if (snapshot.hasData) {
-                            return ListView.builder(
-                                shrinkWrap: true,
-                                itemCount: snapshot.data!.size,
-                                itemBuilder: (context, index) {
-                                  return MessageWidget(
-                                    data: MessageModel.fromJson(
-                                        snapshot.data!.docs[index].data()),
-                                  );
-                                });
-                          } else {
-                            return const Center(
-                              child: Text('lets knock!'),
+                child: StreamBuilder(
+              stream: KnockApis.getAllMessages(userModel),
+              builder: (context, snapshot) {
+                switch (snapshot.connectionState) {
+                  case ConnectionState.waiting:
+                  case ConnectionState.none:
+                    return const Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  case ConnectionState.done:
+                  case ConnectionState.active:
+                    if (snapshot.hasData) {
+                      return ListView.builder(
+                          shrinkWrap: false,
+                          reverse: false,
+                          itemCount: snapshot.data!.size,
+                          itemBuilder: (context, index) {
+                            return MessageWidget(
+                              data: MessageModel.fromJson(
+                                  snapshot.data!.docs[index].data()),
                             );
-                          }
-                      }
-                    },
-                  ),
-                ),
-              ],
+                          });
+                    } else {
+                      return const Center(
+                        child: Text('lets knock!'),
+                      );
+                    }
+                }
+              },
             )),
             _bottomMessagePart()
           ],

@@ -11,6 +11,7 @@ import 'package:knockme/view/pages/sigin_page.dart';
 import 'package:knockme/view/pages/signUp_page.dart';
 import 'package:knockme/view/pages/splash_page.dart';
 
+import '../model/user_model.dart';
 import '../view/pages/profile_page.dart';
 
 class RouteConfig {
@@ -44,7 +45,9 @@ class RouteConfig {
         transition: Transition.cupertino),
     GetPage(
         name: chatPageRouteName,
-        page: () => const ChatPage(),
+        page: () => ChatPage(
+              userModel: Get.arguments,
+            ),
         binding: ChatBinding(),
         transition: Transition.cupertino),
   ];

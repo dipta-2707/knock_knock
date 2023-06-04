@@ -1,6 +1,7 @@
 import 'dart:ffi';
 
 import 'package:flutter/material.dart';
+import 'package:knockme/ults/time_converter.dart';
 
 import '../../model/user_model.dart';
 
@@ -31,21 +32,8 @@ class UserListTile extends StatelessWidget {
                 color: Colors.green,
                 size: 10.0,
               )
-            : _timeBuilder(),
+            : Text(TimeConverter.getTime(userModel.lastActive)),
       ),
     );
-  }
-
-  _timeBuilder() {
-    String time = "";
-    final DateTime dateTime =
-        DateTime.fromMillisecondsSinceEpoch(int.parse(userModel.lastActive));
-
-    if (dateTime == DateTime.now()) {
-      time = dateTime.toString();
-    } else {
-      time = dateTime.toString();
-    }
-    return Text(time);
   }
 }

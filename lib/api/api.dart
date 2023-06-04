@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
+import 'package:knockme/model/message_model.dart';
 import 'package:knockme/model/user_model.dart';
 import 'package:knockme/ults/snack_bars.dart';
 
@@ -44,6 +45,43 @@ class KnockApis {
       }
     });
   }
+
+  /// ----------------------   messages part -----------------
+  // get message id
+  static String getConversationId(String id) {
+    if (currentUser.uid.compareTo(id) == -1) {
+      return currentUser.uid + id;
+    } else {
+      return id + currentUser.uid;
+    }
+  }
+
+  /// get chats
+  static Stream<QuerySnapshot<Map<String, dynamic>>> getAllMessages(
+      UserModel userModel) {
+    return firestore
+        .collection('chats/${getConversationId(userModel.id)}/messages/')
+        .snapshots();
+  }
+
+  ///set messages ---------
+  static Future<void> setMessages(UserModel userModel, String msg) async {
+    final String time = DateTime.now().millisecondsSinceEpoch.toString();
+
+    final body = MessageModel(
+        formId: currentUser.uid,
+        toId: userModel.id,
+        sentTime: time,
+        readTime: '',
+        message: msg,
+        type: 'Text');
+    await firestore
+        .collection('chats/${getConversationId(userModel.id)}/messages/')
+        .doc()
+        .set(body.toJson());
+  }
+
+  // sent message -------------
 
   // -------------------------------- CREATE  ----------------------------------
   // create a new user

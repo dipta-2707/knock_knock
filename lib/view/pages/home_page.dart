@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:knockme/api/api.dart';
 import 'package:knockme/controller/page/homePage_controller.dart';
 import 'package:knockme/model/user_model.dart';
 import 'package:knockme/view/widgets/user_tile.dart';
@@ -33,11 +34,16 @@ class HomePage extends GetView<HomePageController> {
                     ? ListView.builder(
                         itemCount: snapshot.data!.size,
                         itemBuilder: (context, index) {
-                          return UserListTile(
-                            onClick: () => controller.gotoChatPage(),
-                            userModel: UserModel.fromJson(
-                                snapshot.data!.docs[index].data()),
-                          );
+                          if (snapshot.data!.docs[index].data()['id'] !=
+                              KnockApis.currentUser.uid) {
+                            return UserListTile(
+                              onClick: () => controller.gotoChatPage(
+                                  UserModel.fromJson(
+                                      snapshot.data!.docs[index].data())),
+                              userModel: UserModel.fromJson(
+                                  snapshot.data!.docs[index].data()),
+                            );
+                          }
                         })
                     : const Center(
                         child: Text('No knocks!'),

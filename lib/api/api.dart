@@ -68,10 +68,12 @@ class KnockApis {
   }
 
   // get user info
+  //todo:: data not get
   static Future<UserModel> getUserInfo(String id) async {
-    final data = await firestore.collection(_userCollection).doc(id).get();
-
-    return UserModel.fromRawJson(jsonEncode(data));
+    await firestore.collection(_userCollection).doc(id).get().then((value) {
+      return UserModel.fromJson(value.data()!);
+    });
+    return UserModel.fromJson({"as": "asd"});
   }
 
   /// get chats

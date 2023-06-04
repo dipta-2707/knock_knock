@@ -34,6 +34,8 @@ class HomePage extends GetView<HomePageController> {
                     ? ListView.builder(
                         itemCount: snapshot.data!.size,
                         itemBuilder: (context, index) {
+                          print(snapshot.data!.docs[index].id);
+                          KnockApis.getUserInfo(snapshot.data!.docs[index].id);
                           return UserListTile(
                               onClick: () => controller.gotoChatPage(
                                   UserModel.fromJson(

@@ -44,6 +44,7 @@ class HomePage extends GetView<HomePageController> {
                                   snapshot.data!.docs[index].data()),
                             );
                           }
+                          return const SizedBox();
                         })
                     : const Center(
                         child: Text('No knocks!'),

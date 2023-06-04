@@ -29,6 +29,7 @@ class MessageWidget extends StatelessWidget {
         Flexible(
           child: Container(
             padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 5.0),
+            margin: const EdgeInsets.symmetric(vertical: 4.0),
             decoration: const BoxDecoration(
               borderRadius: BorderRadius.only(
                   topLeft: Radius.circular(8.0),

@@ -84,6 +84,9 @@ class SignInController extends GetxController {
                       FirebaseAuth.instance.currentUser!.displayName ?? 'Nobie')
               .then((value) => gotoHomePage());
         }
+        _emailController.clear();
+        _passwordController.clear();
+        _isPasswordObsecure.value = true;
       });
     } catch (e) {
       Get.snackbar(

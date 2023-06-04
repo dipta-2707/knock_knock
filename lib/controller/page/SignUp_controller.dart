@@ -46,6 +46,9 @@ class SignUpController extends GetxController {
           await KnockApis.createUserAccount(name: displayName)
               .then((value) => gotoHomePage());
         }
+        _fullNameController.clear();
+        _passwordController.clear();
+        _emailController.clear();
       });
     } catch (e) {
       KnockSnackBar.showSnackBar(

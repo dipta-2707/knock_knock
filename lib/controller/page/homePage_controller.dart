@@ -26,7 +26,7 @@ class HomePageController extends GetxController {
   }
 
   void gotoChatPage(UserModel userModel) {
-    Get.toNamed(RouteConfig.chatPageRouteName, arguments: userModel);
+    // Get.toNamed(RouteConfig.chatPageRouteName, arguments: userModel);
     // Get.to(() => ChatPage(
     //       userModel: userModel,
     //     ));

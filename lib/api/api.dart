@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
@@ -46,6 +48,15 @@ class KnockApis {
     });
   }
 
+  // get user friends chat list
+  static Stream<QuerySnapshot<Map<String, dynamic>>> getAllFriends() {
+    return firestore
+        .collection('users')
+        .doc(currentUser.uid)
+        .collection('friends')
+        .snapshots();
+  }
+
   /// ----------------------   messages part -----------------
   // get message id
   static String getConversationId(String id) {
@@ -54,6 +65,13 @@ class KnockApis {
     } else {
       return id + currentUser.uid;
     }
+  }
+
+  // get user info
+  static Future<UserModel> getUserInfo(String id) async {
+    final data = await firestore.collection(_userCollection).doc(id).get();
+
+    return UserModel.fromRawJson(jsonEncode(data));
   }
 
   /// get chats
@@ -80,6 +98,7 @@ class KnockApis {
         .collection('chats/${getConversationId(userModel.id)}/messages/')
         .doc()
         .set(body.toJson());
+    //await setUnreadMessageValue(userModel);
   }
 
   // get last message
@@ -91,6 +110,17 @@ class KnockApis {
         .limit(1)
         .snapshots();
   }
+
+  /// unread message counter
+  // static Future<void> setUnreadMessageValue(UserModel userModel) async {
+  //   return firestore
+  //       .collection('chats/${getConversationId(userModel.id)}/unread/')
+  //       .doc()
+  //       .set({
+  //     userModel.id: 0,
+  //     currentUser.uid: 0,
+  //   });
+  // }
 
   // -------------------------------- CREATE  ----------------------------------
   // create a new user

@@ -20,7 +20,7 @@ class HomePage extends GetView<HomePageController> {
         actions: [_popUpMenu()],
       ),
       body: StreamBuilder(
-          stream: FirebaseFirestore.instance.collection('users').snapshots(),
+          stream: KnockApis.getAllFriends(),
           builder: (context, snapshot) {
             switch (snapshot.connectionState) {
               case ConnectionState.waiting:
@@ -30,21 +30,25 @@ class HomePage extends GetView<HomePageController> {
                 );
               case ConnectionState.active:
               case ConnectionState.done:
-                return snapshot.data!.size > 0
+                return snapshot.data!.docs.isNotEmpty
                     ? ListView.builder(
                         itemCount: snapshot.data!.size,
                         itemBuilder: (context, index) {
-                          if (snapshot.data!.docs[index].data()['id'] !=
-                              KnockApis.currentUser.uid) {
-                            return UserListTile(
+                          return UserListTile(
                               onClick: () => controller.gotoChatPage(
                                   UserModel.fromJson(
                                       snapshot.data!.docs[index].data())),
-                              userModel: UserModel.fromJson(
-                                  snapshot.data!.docs[index].data()),
-                            );
-                          }
-                          return const SizedBox();
+                              userModel: UserModel(
+                                  image:
+                                      'https://upload.wikimedia.org/wikipedia/commons/thumb/2/2c/Default_pfp.svg/1200px-Default_pfp.svg.png',
+                                  name: 'test name',
+                                  bio: 'bio',
+                                  createdAt: '651',
+                                  id: '6516s5ads6dasd',
+                                  lastActive: '65465120',
+                                  isOnline: true,
+                                  email: 'asdsd',
+                                  pushToken: 'asd561s65'));
                         })
                     : const Center(
                         child: Text('No knocks!'),

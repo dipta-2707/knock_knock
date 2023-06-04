@@ -104,6 +104,9 @@ class ChatPage extends GetView<ChatController> {
           Expanded(
               child: TextField(
             controller: controller.messageController,
+            keyboardType: TextInputType.multiline,
+            minLines: 1,
+            maxLines: 4,
             decoration: InputDecoration(
                 suffixIcon: IconButton(
                     onPressed: () {},

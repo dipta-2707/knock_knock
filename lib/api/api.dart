@@ -48,13 +48,23 @@ class KnockApis {
     });
   }
 
-  // get user friends chat list
-  static Stream<QuerySnapshot<Map<String, dynamic>>> getAllFriends() {
-    return firestore
-        .collection('users')
-        .doc(currentUser.uid)
-        .collection('friends')
-        .snapshots();
+  /// add user to friend list
+  static Future<bool> addFriend({required String email}) async {
+    final data = await firestore
+        .collection(_userCollection)
+        .where('email', isEqualTo: email)
+        .get();
+
+    if (data.docs.isNotEmpty && data.docs.first.id != currentUser.uid) {
+      firestore
+          .collection(_userCollection)
+          .doc(currentUser.uid)
+          .collection('friends')
+          .doc(data.docs.first.id)
+          .set({});
+      return true;
+    }
+    return false;
   }
 
   /// ----------------------   messages part -----------------
@@ -65,15 +75,6 @@ class KnockApis {
     } else {
       return id + currentUser.uid;
     }
-  }
-
-  // get user info
-  //todo:: data not get
-  static Future<UserModel> getUserInfo(String id) async {
-    await firestore.collection(_userCollection).doc(id).get().then((value) {
-      return UserModel.fromJson(value.data()!);
-    });
-    return UserModel.fromJson({"as": "asd"});
   }
 
   /// get chats

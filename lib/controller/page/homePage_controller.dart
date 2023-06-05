@@ -1,9 +1,12 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:knockme/api/api.dart';
 import 'package:knockme/config/route_config.dart';
 import 'package:knockme/model/user_model.dart';
 import 'package:knockme/view/pages/chat_page.dart';
+
+import '../../ults/snack_bars.dart';
 
 class HomePageController extends GetxController {
   void gotoSignIn() => Get.offAndToNamed(RouteConfig.singInPageRouteName);
@@ -11,6 +14,7 @@ class HomePageController extends GetxController {
   @override
   void onInit() {
     super.onInit();
+
     // fetching self info after successfully logged in
     KnockApis.getSelfInfo();
   }
@@ -31,4 +35,6 @@ class HomePageController extends GetxController {
     //       userModel: userModel,
     //     ));
   }
+
+  void gotoAddFriendPage() => Get.toNamed(RouteConfig.addFriendPageRouteName);
 }

@@ -10,6 +10,7 @@ import 'package:knockme/ults/snack_bars.dart';
 class KnockApis {
   // collection name
   static const String _userCollection = "users";
+  static const String _friendsCollection = "friends";
 
   // for firebase Auth
   static FirebaseAuth auth = FirebaseAuth.instance;
@@ -52,7 +53,7 @@ class KnockApis {
   static Future<bool> addFriend({required String email}) async {
     final data = await firestore
         .collection(_userCollection)
-        .where('email', isEqualTo: email)
+        .where('email', isEqualTo: email.trim())
         .get();
 
     if (data.docs.isNotEmpty && data.docs.first.id != currentUser.uid) {
@@ -65,6 +66,24 @@ class KnockApis {
       return true;
     }
     return false;
+  }
+
+  /// fetch friends list
+  static Stream<QuerySnapshot<Map<String, dynamic>>> getFriends() {
+    return firestore
+        .collection(_userCollection)
+        .doc(currentUser.uid)
+        .collection(_friendsCollection)
+        .snapshots();
+  }
+
+  /// get listed users
+  static Stream<QuerySnapshot<Map<String, dynamic>>> getListedUsers(
+      {required List<String> userIds}) {
+    return firestore
+        .collection(_userCollection)
+        .where('id', whereIn: userIds)
+        .snapshots();
   }
 
   /// ----------------------   messages part -----------------

@@ -39,7 +39,7 @@ class UserListTile extends StatelessWidget {
                     if (snapshot.data!.docs.isNotEmpty) {
                       return Text(
                         snapshot.data!.docs[0].data()['message'],
-                        overflow: TextOverflow.fade,
+                        overflow: TextOverflow.ellipsis,
                         maxLines: 1,
                         style: Theme.of(context)
                             .textTheme

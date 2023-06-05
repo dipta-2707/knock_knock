@@ -16,7 +16,7 @@ class AddFriendController extends GetxController {
   // fetching user fiends list only
   void addMyFriends() async {
     if (emailController.text.isNotEmpty &&
-        await (KnockApis.addFriend(email: emailController.text))) {
+        await (KnockApis.sentFriendRequest(email: emailController.text))) {
       //  email found and request sent
       KnockSnackBar.showSnackBar(
           context: Get.context!,
@@ -31,5 +31,13 @@ class AddFriendController extends GetxController {
           snackBarType: SnackBarType.error);
     }
     emailController.clear();
+  }
+
+  void acceptRequest({required String id}) {
+    KnockApis.addFriend(id: id);
+  }
+
+  void rejectRequest({required String id}) {
+    KnockApis.rejectFriendRequest(id: id);
   }
 }

@@ -33,7 +33,7 @@ class HomePage extends GetView<HomePageController> {
                 );
               case ConnectionState.done:
               case ConnectionState.active:
-                if (friendSnapshot.hasData) {
+                if (friendSnapshot.data!.size > 0) {
                   return StreamBuilder(
                     stream: KnockApis.getListedUsers(
                         userIds: friendSnapshot.data?.docs
@@ -75,7 +75,10 @@ class HomePage extends GetView<HomePageController> {
                   );
                 }
                 return const Center(
-                  child: Text('No one to Knock.\nAdd your knock friend.'),
+                  child: Text(
+                    'No one to Knock.\nAdd your knock friend.',
+                    textAlign: TextAlign.center,
+                  ),
                 );
             }
           },
@@ -107,16 +110,49 @@ class HomePage extends GetView<HomePageController> {
   }
 
   Widget _addFriendButton(BuildContext context) {
-    return FloatingActionButton.small(
-      backgroundColor: Colors.blueAccent,
-      onPressed: () {
-        controller.gotoAddFriendPage();
-      },
-      child: Icon(
-        Icons.person_add_alt_1,
-        color: Colors.white,
-        size: 22.0,
-      ),
+    return Stack(
+      children: [
+        FloatingActionButton.small(
+          backgroundColor: Colors.blueAccent,
+          onPressed: () {
+            controller.gotoAddFriendPage();
+          },
+          child: Icon(
+            Icons.person_add_alt_1,
+            color: Colors.white,
+            size: 22.0,
+          ),
+        ),
+        StreamBuilder(
+            stream: KnockApis.getFriendRequests(),
+            builder: (context, snapshot) {
+              switch (snapshot.connectionState) {
+                case ConnectionState.none:
+                case ConnectionState.waiting:
+                  return const SizedBox();
+                case ConnectionState.done:
+                case ConnectionState.active:
+                  if (snapshot.data!.size > 0) {
+                    return Positioned(
+                      right: 0,
+                      top: -5,
+                      child: Container(
+                        padding: EdgeInsets.all(5.0),
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: Colors.red,
+                        ),
+                        child: Text(
+                          snapshot.data?.size.toString() ?? '',
+                          style: TextStyle(color: Colors.white),
+                        ),
+                      ),
+                    );
+                  }
+                  return const SizedBox();
+              }
+            }),
+      ],
     );
   }
 }

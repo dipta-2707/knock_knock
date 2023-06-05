@@ -11,6 +11,7 @@ class KnockApis {
   // collection name
   static const String _userCollection = "users";
   static const String _friendsCollection = "friends";
+  static const String _requestCollection = "requests";
 
   // for firebase Auth
   static FirebaseAuth auth = FirebaseAuth.instance;
@@ -49,23 +50,63 @@ class KnockApis {
     });
   }
 
-  /// add user to friend list
-  static Future<bool> addFriend({required String email}) async {
+  /// send friend request
+  static Future<bool> sentFriendRequest({required String email}) async {
     final data = await firestore
         .collection(_userCollection)
         .where('email', isEqualTo: email.trim())
         .get();
 
     if (data.docs.isNotEmpty && data.docs.first.id != currentUser.uid) {
+      /// add for me
       firestore
           .collection(_userCollection)
-          .doc(currentUser.uid)
-          .collection('friends')
           .doc(data.docs.first.id)
+          .collection(_requestCollection)
+          .doc(currentUser.uid)
           .set({});
       return true;
     }
     return false;
+  }
+
+  ///  listen friend request
+  static Stream<QuerySnapshot<Map<String, dynamic>>> getFriendRequests() {
+    return firestore
+        .collection(_userCollection)
+        .doc(currentUser.uid)
+        .collection(_requestCollection)
+        .snapshots();
+  }
+
+  /// add user to friend list
+  static Future<void> addFriend({required String id}) async {
+    /// add for me
+    firestore
+        .collection(_userCollection)
+        .doc(currentUser.uid)
+        .collection('friends')
+        .doc(id.trim())
+        .set({});
+    // also add for friend side
+    firestore
+        .collection(_userCollection)
+        .doc(id.trim())
+        .collection('friends')
+        .doc(currentUser.uid)
+        .set({});
+
+    /// after accepting request we also have to remove the request from database
+    rejectFriendRequest(id: id);
+  }
+
+  static Future<void> rejectFriendRequest({required String id}) async {
+    firestore
+        .collection(_userCollection)
+        .doc(currentUser.uid)
+        .collection(_requestCollection)
+        .doc(id.trim())
+        .delete();
   }
 
   /// fetch friends list

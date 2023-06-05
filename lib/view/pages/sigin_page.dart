@@ -105,7 +105,7 @@ class SignInPage extends GetView<SignInController> {
             child: Container(
               padding:
                   const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
-              color: Colors.amber,
+              color: Theme.of(context).colorScheme.secondary,
               child: const Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [

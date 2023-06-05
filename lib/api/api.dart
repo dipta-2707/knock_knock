@@ -127,7 +127,9 @@ class KnockApis {
         .snapshots();
   }
 
-  /// ----------------------   messages part -----------------
+  /// ----------------------   messages part ----------------- ------------------------
+  /// ============================================================
+  /// ========================                ======================
   // get message id
   static String getConversationId(String id) {
     if (currentUser.uid.compareTo(id) == -1) {

@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:knockme/config/route_config.dart';
 import 'package:knockme/view/pages/sigin_page.dart';
 
+import 'config/color_schemes.g.dart';
 import 'firebase_options.dart';
 
 void main() {
@@ -26,7 +27,7 @@ class MyApp extends StatelessWidget {
     return GetMaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        colorScheme: lightColorScheme,
         useMaterial3: true,
       ),
       initialRoute: RouteConfig.splashPageRouteName,

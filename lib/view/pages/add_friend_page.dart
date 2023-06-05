@@ -32,15 +32,11 @@ class AddFriendPage extends GetView<AddFriendController> {
               children: [
                 Expanded(
                   child: ElevatedButton(
-                      style: const ButtonStyle(
-                          backgroundColor:
-                              MaterialStatePropertyAll(Colors.blueAccent)),
                       onPressed: () {
                         controller.addMyFriends();
                       },
                       child: const Text(
                         'Add',
-                        style: TextStyle(color: Colors.white),
                       )),
                 ),
               ],

@@ -113,11 +113,10 @@ class HomePage extends GetView<HomePageController> {
     return Stack(
       children: [
         FloatingActionButton.small(
-          backgroundColor: Colors.blueAccent,
           onPressed: () {
             controller.gotoAddFriendPage();
           },
-          child: Icon(
+          child: const Icon(
             Icons.person_add_alt_1,
             color: Colors.white,
             size: 22.0,

@@ -20,7 +20,7 @@ class AddFriendController extends GetxController {
       //  email found and request sent
       KnockSnackBar.showSnackBar(
           context: Get.context!,
-          content: 'Added to your Knock list.',
+          content: 'Knock request sent.',
           snackBarType: SnackBarType.success);
     } else {
       // email not found or user not exits

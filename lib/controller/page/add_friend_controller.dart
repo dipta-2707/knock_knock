@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 
 import '../../api/api.dart';
+import '../../config/route_config.dart';
 import '../../ults/snack_bars.dart';
 
 class AddFriendController extends GetxController {
@@ -40,4 +41,6 @@ class AddFriendController extends GetxController {
   void rejectRequest({required String id}) {
     KnockApis.rejectFriendRequest(id: id);
   }
+
+  void gotoAllFriendPage() => Get.toNamed(RouteConfig.allFriendPageRouteName);
 }

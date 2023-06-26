@@ -1,5 +1,6 @@
 import 'package:get/get.dart';
 import 'package:knockme/bindings/addFriend_binding.dart';
+import 'package:knockme/bindings/all_friend_page_binding.dart';
 import 'package:knockme/bindings/chat_binding.dart';
 import 'package:knockme/bindings/homePage_binding.dart';
 import 'package:knockme/bindings/profile_binding.dart';
@@ -7,6 +8,7 @@ import 'package:knockme/bindings/signUp_binding.dart';
 import 'package:knockme/bindings/singIn_binding.dart';
 import 'package:knockme/bindings/splash_binding.dart';
 import 'package:knockme/view/pages/add_friend_page.dart';
+import 'package:knockme/view/pages/all_friends_page.dart';
 import 'package:knockme/view/pages/chat_page.dart';
 import 'package:knockme/view/pages/home_page.dart';
 import 'package:knockme/view/pages/sigin_page.dart';
@@ -24,6 +26,7 @@ class RouteConfig {
   static const String profilePageRouteName = '/profilePage';
   static const String chatPageRouteName = '/chatPage';
   static const String addFriendPageRouteName = '/addFriendPage';
+  static const String allFriendPageRouteName = '/allFriendPage';
   static final pages = [
     GetPage(
         name: splashPageRouteName,
@@ -57,6 +60,11 @@ class RouteConfig {
         name: addFriendPageRouteName,
         page: () => const AddFriendPage(),
         binding: AddFriendBinding(),
+        transition: Transition.cupertino),
+    GetPage(
+        name: allFriendPageRouteName,
+        page: () => const AllFriendPage(),
+        binding: ALlFriendPageBinding(),
         transition: Transition.cupertino),
   ];
 }

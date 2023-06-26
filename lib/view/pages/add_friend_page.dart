@@ -13,6 +13,13 @@ class AddFriendPage extends GetView<AddFriendController> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Add to Knock'),
+        actions: [
+          TextButton(
+              onPressed: () {
+                controller.gotoAllFriendPage();
+              },
+              child: const Text('All friends'))
+        ],
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 15.0),

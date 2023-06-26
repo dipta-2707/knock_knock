@@ -19,7 +19,8 @@ class UserListTile extends StatelessWidget {
       onLongPress: () {
         Get.defaultDialog(
           title: 'Delete Chat',
-          content: Text('Are you sure? This action can not be undo.'),
+          content: const Text(
+              'Are you sure? This action can not be undo. All message will be deleted from both side.'),
           onConfirm: () {
             KnockApis.deleteChat(chatId: userModel.id);
             //print(userModel.id);

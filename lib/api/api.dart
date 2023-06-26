@@ -129,6 +129,16 @@ class KnockApis {
         .snapshots();
   }
 
+  /// add to chat List
+  static Future<void> allToChatList({required UserModel userModel}) {
+    return firestore
+        .collection(_userCollection)
+        .doc(currentUser.uid)
+        .collection(_chatListCollection)
+        .doc(userModel.id)
+        .set({});
+  }
+
   /// remove and delete chat
   static Future<void> deleteChat({required String chatId}) async {
     firestore

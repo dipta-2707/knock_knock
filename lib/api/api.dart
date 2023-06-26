@@ -52,6 +52,14 @@ class KnockApis {
     });
   }
 
+  /// update active status
+  static Future<void> updateActiveStatus({required bool isOnline}) {
+    return firestore.collection(_userCollection).doc(currentUser.uid).update({
+      'is_online': isOnline,
+      'last_active': DateTime.now().millisecondsSinceEpoch
+    });
+  }
+
   /// send friend request
   static Future<bool> sentFriendRequest({required String email}) async {
     final data = await firestore
@@ -130,7 +138,7 @@ class KnockApis {
   }
 
   /// add to chat List
-  static Future<void> allToChatList({required UserModel userModel}) {
+  static Future<void> addToChatList({required UserModel userModel}) {
     /// for me
     firestore
         .collection(_userCollection)
@@ -207,13 +215,13 @@ class KnockApis {
 
   ///set messages ---------
   static Future<void> setMessages(UserModel userModel, String msg) async {
-    final String time = DateTime.now().millisecondsSinceEpoch.toString();
+    final int time = DateTime.now().millisecondsSinceEpoch;
 
     final body = MessageModel(
         formId: currentUser.uid,
         toId: userModel.id,
         sentTime: time,
-        readTime: '',
+        readTime: 0,
         message: msg,
         type: 'Text');
     await firestore
@@ -247,7 +255,7 @@ class KnockApis {
   // -------------------------------- CREATE  ----------------------------------
   // create a new user
   static Future<void> createUserAccount({required String name}) async {
-    final dateTime = DateTime.now().millisecondsSinceEpoch.toString();
+    final int dateTime = DateTime.now().millisecondsSinceEpoch;
     final user = UserModel(
         image: auth.currentUser!.photoURL ??
             'https://upload.wikimedia.org/wikipedia/commons/thumb/2/2c/Default_pfp.svg/1200px-Default_pfp.svg.png',
@@ -284,13 +292,5 @@ class KnockApis {
             snackBarType: SnackBarType.error);
       }
     }
-  }
-
-  // update active status ( when logout only)
-  static Future<void> updateActiveStatus() async {
-    await firestore
-        .collection('users/${currentUser.uid}')
-        .doc()
-        .set({'is_online': false});
   }
 }

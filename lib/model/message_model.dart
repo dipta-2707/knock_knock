@@ -3,8 +3,8 @@ import 'dart:convert';
 class MessageModel {
   final String formId;
   final String toId;
-  final String sentTime;
-  final String readTime;
+  final int sentTime;
+  final int readTime;
   final String message;
   final String type;
 

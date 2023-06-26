@@ -4,9 +4,9 @@ class UserModel {
   final String image;
   final String name;
   final String bio;
-  final String createdAt;
+  final int createdAt;
   final String id;
-  final String lastActive;
+  final int lastActive;
   final bool isOnline;
   final String email;
   final String pushToken;

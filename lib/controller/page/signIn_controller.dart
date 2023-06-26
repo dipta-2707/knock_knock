@@ -42,6 +42,7 @@ class SignInController extends GetxController {
       await FirebaseAuth.instance
           .signInWithEmailAndPassword(email: email, password: password)
           .then((value) {
+        KnockApis.updateActiveStatus(isOnline: true);
         gotoHomePage();
       });
     } catch (e) {

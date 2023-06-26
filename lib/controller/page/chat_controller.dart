@@ -18,7 +18,7 @@ class ChatController extends GetxController {
   Future<void> setMessage(UserModel userModel) async {
     if (_messageTextController.text.isNotEmpty) {
       await KnockApis.setMessages(userModel, _messageTextController.text);
-      KnockApis.allToChatList(userModel: userModel);
+      KnockApis.addToChatList(userModel: userModel);
       _messageTextController.clear();
     } else {
       return;

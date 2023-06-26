@@ -7,6 +7,7 @@ import 'package:knockme/model/message_model.dart';
 import 'package:knockme/model/user_model.dart';
 
 import '../../api/api.dart';
+import '../../ults/time_converter.dart';
 import '../widgets/message_widget.dart';
 
 class ChatPage extends GetView<ChatController> {
@@ -43,7 +44,7 @@ class ChatPage extends GetView<ChatController> {
                 Text(
                   userModel.isOnline
                       ? 'Active Now'
-                      : 'Last seen not available yet',
+                      : 'Last seen at ${TimeConverter.getTime(userModel.lastActive)}',
                   style: Theme.of(context)
                       .textTheme
                       .bodySmall!

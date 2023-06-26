@@ -131,11 +131,20 @@ class KnockApis {
 
   /// add to chat List
   static Future<void> allToChatList({required UserModel userModel}) {
-    return firestore
+    /// for me
+    firestore
         .collection(_userCollection)
         .doc(currentUser.uid)
         .collection(_chatListCollection)
         .doc(userModel.id)
+        .set({});
+
+    /// for other
+    return firestore
+        .collection(_userCollection)
+        .doc(userModel.id)
+        .collection(_chatListCollection)
+        .doc(currentUser.uid)
         .set({});
   }
 

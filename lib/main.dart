@@ -30,6 +30,7 @@ class MyApp extends StatelessWidget {
         colorScheme: lightColorScheme,
         useMaterial3: true,
       ),
+      debugShowCheckedModeBanner: false,
       initialRoute: RouteConfig.splashPageRouteName,
       getPages: RouteConfig.pages,
     );

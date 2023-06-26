@@ -1,6 +1,7 @@
 import 'dart:ffi';
 
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:knockme/api/api.dart';
 import 'package:knockme/ults/time_converter.dart';
 
@@ -15,7 +16,20 @@ class UserListTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onLongPress: () {},
+      onLongPress: () {
+        Get.defaultDialog(
+          title: 'Delete Chat',
+          content: Text('Are you sure? This action can not be undo.'),
+          onConfirm: () {
+            KnockApis.deleteChat(chatId: userModel.id);
+            //print(userModel.id);
+            Get.back();
+          },
+          onCancel: () {
+            Get.back();
+          },
+        );
+      },
       onTap: onClick,
       child: ListTile(
         leading: ClipOval(

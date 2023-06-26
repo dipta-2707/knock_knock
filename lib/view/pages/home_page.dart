@@ -21,7 +21,7 @@ class HomePage extends GetView<HomePageController> {
         ),
         floatingActionButton: _addFriendButton(context),
         body: StreamBuilder(
-          stream: KnockApis.getFriends(),
+          stream: KnockApis.getChatList(),
           builder: (context, friendSnapshot) {
             switch (friendSnapshot.connectionState) {
               case ConnectionState.none:

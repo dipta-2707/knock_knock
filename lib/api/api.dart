@@ -10,8 +10,10 @@ import 'package:knockme/ults/snack_bars.dart';
 class KnockApis {
   // collection name
   static const String _userCollection = "users";
+  static const String _chatCollection = "chats";
   static const String _friendsCollection = "friends";
   static const String _requestCollection = "requests";
+  static const String _chatListCollection = "chatList";
 
   // for firebase Auth
   static FirebaseAuth auth = FirebaseAuth.instance;
@@ -116,6 +118,42 @@ class KnockApis {
         .doc(currentUser.uid)
         .collection(_friendsCollection)
         .snapshots();
+  }
+
+  /// fetch chat List
+  static Stream<QuerySnapshot<Map<String, dynamic>>> getChatList() {
+    return firestore
+        .collection(_userCollection)
+        .doc(currentUser.uid)
+        .collection(_chatListCollection)
+        .snapshots();
+  }
+
+  /// remove and delete chat
+  static Future<void> deleteChat({required String chatId}) async {
+    firestore
+        .collection(_userCollection)
+        .doc(currentUser.uid)
+        .collection(_chatListCollection)
+        .doc(chatId)
+        .delete();
+    String conversationId = getConversationId(chatId);
+
+    firestore
+        .collection(_chatCollection)
+        .doc(conversationId)
+        .collection('messages')
+        .get()
+        .then((value) {
+      for (var element in value.docs) {
+        firestore
+            .collection(_chatCollection)
+            .doc(conversationId)
+            .collection('messages')
+            .doc(element.id)
+            .delete();
+      }
+    });
   }
 
   /// get listed users

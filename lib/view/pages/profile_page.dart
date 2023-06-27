@@ -10,6 +10,7 @@ class ProfilePage extends GetView<ProfileController> {
 
   @override
   Widget build(BuildContext context) {
+    print('-----------update');
     return Scaffold(
       appBar: AppBar(
         title: const Text('Me'),
@@ -22,12 +23,20 @@ class ProfilePage extends GetView<ProfileController> {
           children: [
             Stack(
               children: [
-                Image.network(
-                  KnockApis.me.image,
-                  fit: BoxFit.cover,
-                  width: 100,
-                  height: 100,
+                Obx(
+                  () => CachedNetworkImage(
+                    imageUrl: controller.currentPhoto(),
+                    fit: BoxFit.cover,
+                    width: 100,
+                    height: 100,
+                    placeholder: (context, url) =>
+                        const CircularProgressIndicator(),
+                    errorWidget: (context, url, error) =>
+                        const Icon(Icons.error),
+                  ),
                 ),
+
+                /// edit button ==============
                 Positioned(
                   bottom: 0,
                   right: 0,
@@ -56,28 +65,26 @@ class ProfilePage extends GetView<ProfileController> {
                                         children: <Widget>[
                                           const Text('Choose your avatar'),
                                           Expanded(
-                                            child: ListView.builder(
+                                            child: ListView.separated(
+                                              separatorBuilder:
+                                                  (context, index) =>
+                                                      const SizedBox(
+                                                width: 8.0,
+                                              ),
                                               scrollDirection: Axis.horizontal,
                                               itemCount:
                                                   controller.avatarUrls.length,
                                               itemBuilder: (context, index) {
-                                                return CachedNetworkImage(
-                                                  imageUrl:
-                                                      'https://firebasestorage.googleapis.com/v0/b/kncokme-d35b8.appspot.com/o/avatars%2Fkma17.png?alt=media&token=e01c0c79-16ef-451a-953f-e20e751384dd',
-                                                  placeholder: (context, url) =>
-                                                      const CircularProgressIndicator(),
-                                                  errorWidget: (context, url,
-                                                          error) =>
-                                                      const Icon(Icons.error),
-                                                );
+                                                return buildAvatar(index);
                                               },
                                             ),
                                           ),
                                           ElevatedButton(
-                                            child: const Text('save'),
-                                            onPressed: () =>
-                                                Navigator.pop(context),
-                                          ),
+                                              child: const Text('save'),
+                                              onPressed: () {
+                                                controller.updateAvatar();
+                                                Navigator.pop(context);
+                                              }),
                                         ],
                                       )
                                     : const Center(
@@ -153,6 +160,7 @@ class ProfilePage extends GetView<ProfileController> {
                       : TextFormField(
                           controller: controller.bioTextController,
                           onFieldSubmitted: (value) {
+                            controller.updateBioName();
                             controller.putIsBioEditActive(false);
                           },
                           decoration:
@@ -165,6 +173,52 @@ class ProfilePage extends GetView<ProfileController> {
               height: 16.0,
             ),
           ],
+        ),
+      ),
+    );
+  }
+
+  Widget buildAvatar(int index) {
+    return InkWell(
+      splashColor: Colors.transparent,
+      onTap: () {
+        controller.putSelectedAvatarIndex(index);
+      },
+      child: Obx(
+        () => Container(
+          width: 90.0,
+          decoration: BoxDecoration(
+              border: Border.all(
+                  width: 3,
+                  color: controller.selectedAvatarIndex == index
+                      ? Colors.green
+                      : Colors.transparent),
+              shape: BoxShape.circle),
+          child: CachedNetworkImage(
+            imageUrl: controller.avatarUrls[index],
+            width: 90.0,
+            placeholder: (context, url) => Container(
+              width: 90.0,
+              decoration: const BoxDecoration(
+                  shape: BoxShape.circle,
+                  gradient: LinearGradient(
+                    colors: [
+                      Color(0xFFEBEBF4),
+                      Color(0xFFF4F4F4),
+                      Color(0xFFEBEBF4),
+                    ],
+                    stops: [
+                      0.1,
+                      0.3,
+                      0.4,
+                    ],
+                    begin: Alignment(-1.0, -0.3),
+                    end: Alignment(1.0, 0.3),
+                    tileMode: TileMode.clamp,
+                  )),
+            ),
+            errorWidget: (context, url, error) => const Icon(Icons.error),
+          ),
         ),
       ),
     );

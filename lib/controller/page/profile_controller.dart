@@ -6,6 +6,12 @@ class ProfileController extends GetxController {
   late TextEditingController nameTextController;
   late TextEditingController bioTextController;
 
+  RxInt _selectedAvatarIndex = 0.obs;
+
+  int get selectedAvatarIndex => _selectedAvatarIndex.value;
+
+  void putSelectedAvatarIndex(int value) => _selectedAvatarIndex.value = value;
+
   RxBool _isNameEditActive = false.obs;
   RxBool _isBioEditActive = false.obs;
 
@@ -19,7 +25,9 @@ class ProfileController extends GetxController {
   void putIsNameEditActive(bool value) => _isNameEditActive.value = value;
   void putIsBioEditActive(bool value) => _isBioEditActive.value = value;
 
-  List<String> avatarUrls = <String>[].obs;
+  RxList<String> avatarUrls = <String>[].obs;
+
+  Rx<String> currentPhoto = ''.obs;
 
   @override
   void onInit() {
@@ -30,24 +38,42 @@ class ProfileController extends GetxController {
 
     nameTextController.text = KnockApis.me.name;
     bioTextController.text = KnockApis.me.bio;
+    loadCurrentPhoto();
   }
 
   void updateDisplayName({required String newName}) {
-    KnockApis.updateDisplayName(newName: newName);
+    KnockApis.updateProfile(newName: newName);
     nameTextController.text = newName;
     update();
   }
 
+  void updateBioName() {
+    KnockApis.updateProfile(newBio: bioTextController.text);
+    update();
+  }
+
+  void updateAvatar() {
+    KnockApis.updateProfile(newAvatar: avatarUrls[selectedAvatarIndex]);
+    loadCurrentPhoto();
+  }
+
   void loadTheAvatars() {
-    if (true) {
+    if (avatarUrls.isEmpty) {
       _isAvatarLoading.value = true;
-      for (var i = 1; i <= 20; i++) {
+      for (var i = 1; i <= 22; i++) {
         KnockApis.getAvatar(photoSN: i).then((value) {
           avatarUrls.add(value);
-          print('index : $i value: %+$value');
         });
       }
       _isAvatarLoading.value = false;
+    }
+  }
+
+  void loadCurrentPhoto() {
+    if (avatarUrls.isEmpty) {
+      currentPhoto.value = KnockApis.me.image;
+    } else {
+      currentPhoto.value = avatarUrls[selectedAvatarIndex];
     }
   }
 }

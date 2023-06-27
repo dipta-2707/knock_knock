@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:math';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -260,9 +261,12 @@ class KnockApis {
   // create a new user
   static Future<void> createUserAccount({required String name}) async {
     final int dateTime = DateTime.now().millisecondsSinceEpoch;
+    int randomNumber = Random().nextInt(22) + 1;
+
+    final String image = await getAvatar(photoSN: randomNumber);
+
     final user = UserModel(
-        image: auth.currentUser!.photoURL ??
-            'https://upload.wikimedia.org/wikipedia/commons/thumb/2/2c/Default_pfp.svg/1200px-Default_pfp.svg.png',
+        image: auth.currentUser!.photoURL ?? image,
         name: name,
         bio: auth.currentUser!.displayName ?? "Hey, Knock Me!",
         createdAt: dateTime,
@@ -280,14 +284,30 @@ class KnockApis {
 
   // --------------------------------- UPDATE ----------------------------------
   // update displayName
-  static Future<void> updateDisplayName({required String newName}) async {
-    if (newName != me.name) {
+  static Future<void> updateProfile(
+      {String? newName, String? newBio, String? newAvatar}) async {
+    Map<String, String> param = {};
+    if (newName != null && newName != me.name) {
+      param['name'] = newName;
+    }
+    if (newBio != null && newBio != me.bio) {
+      param['bio'] = newBio;
+    }
+    if (newAvatar != null && newAvatar != me.image) {
+      param['image'] = newAvatar;
+    }
+    print(param);
+    if (param.isNotEmpty) {
       try {
         await firestore
             .collection(_userCollection)
             .doc(currentUser.uid)
-            .update({"name": newName}).then((value) {
-          getSelfInfo();
+            .update(param)
+            .then((value) {
+          // getSelfInfo();
+          if (newAvatar != null) {
+            me.image = newAvatar;
+          }
         });
       } catch (e) {
         KnockSnackBar.showSnackBar(

@@ -2,8 +2,8 @@ import 'dart:convert';
 
 class UserModel {
   String image;
-  final String name;
-  final String bio;
+  String name;
+  String bio;
   final int createdAt;
   final String id;
   final int lastActive;

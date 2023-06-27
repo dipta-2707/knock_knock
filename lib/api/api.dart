@@ -296,7 +296,7 @@ class KnockApis {
     if (newAvatar != null && newAvatar != me.image) {
       param['image'] = newAvatar;
     }
-    print(param);
+
     if (param.isNotEmpty) {
       try {
         await firestore
@@ -307,6 +307,12 @@ class KnockApis {
           // getSelfInfo();
           if (newAvatar != null) {
             me.image = newAvatar;
+          }
+          if (newBio != null) {
+            me.bio = newBio;
+          }
+          if (newName != null) {
+            me.name = newName;
           }
         });
       } catch (e) {

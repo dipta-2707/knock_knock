@@ -49,9 +49,15 @@ dependencies:
 
   # for use firebase storage
   firebase_storage: ^11.2.4
-
+ 
   # load images
   cached_network_image: ^3.2.3
+
+  # for push notification
+  firebase_messaging: ^14.6.4
+  http: ^1.1.0
+
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

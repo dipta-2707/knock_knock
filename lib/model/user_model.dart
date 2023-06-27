@@ -9,7 +9,7 @@ class UserModel {
   final int lastActive;
   final bool isOnline;
   final String email;
-  final String pushToken;
+  String pushToken;
 
   UserModel({
     required this.image,

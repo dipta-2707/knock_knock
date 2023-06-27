@@ -1,4 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:knockme/api/api.dart';
@@ -12,12 +13,14 @@ class HomePageController extends GetxController with WidgetsBindingObserver {
   void gotoSignIn() => Get.offAndToNamed(RouteConfig.singInPageRouteName);
 
   @override
-  void onInit() {
+  void onInit() async {
     super.onInit();
 
     // fetching self info after successfully logged in
     KnockApis.getSelfInfo();
     WidgetsBinding.instance.addObserver(this);
+    final token = await FirebaseMessaging.instance.getToken();
+    print('push notificaton ${token}');
   }
 
   @override

@@ -3,6 +3,7 @@ import 'dart:math';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:get/get.dart';
 import 'package:knockme/model/message_model.dart';
@@ -25,6 +26,9 @@ class KnockApis {
 
   // for Firebase storage
   static FirebaseStorage firebaseStorage = FirebaseStorage.instance;
+
+  //for push massages
+  static FirebaseMessaging firebaseMessaging = FirebaseMessaging.instance;
 
   // get current user
   static User get currentUser => auth.currentUser!;
@@ -265,6 +269,8 @@ class KnockApis {
 
     final String image = await getAvatar(photoSN: randomNumber);
 
+    final pushToken = await firebaseMessaging.getToken();
+
     final user = UserModel(
         image: auth.currentUser!.photoURL ?? image,
         name: name,
@@ -274,7 +280,7 @@ class KnockApis {
         lastActive: dateTime,
         isOnline: true,
         email: auth.currentUser!.email ?? '',
-        pushToken: '');
+        pushToken: pushToken ?? '');
 
     await firestore
         .collection(_userCollection)
@@ -330,5 +336,40 @@ class KnockApis {
         .ref()
         .child('avatars/kma$photoSN.png')
         .getDownloadURL();
+  }
+
+  /// update push token
+  static Future<void> updatePushToken() async {
+    final pushToken = await firebaseMessaging.getToken();
+
+    await firestore
+        .collection(_userCollection)
+        .doc(currentUser.uid)
+        .update({'push_token': pushToken});
+  }
+
+  /// sent push notification
+  static Future<void> sentPushNotification({required String message}) {
+    var headers = {
+      'Content-Type': 'application/json',
+      'Authorization':
+          'Bearer AAAANF9J7VA:APA91bEt2A4eHvV6cJ5Oeja7_0VijyodDZ62fQvIIBHMVqFDuK6otY6duTbx7NUfPApbjQW4WtO6zz84m9CSpVQu8a60zgN3DA13Yp7RFOoqiD6GyRUKcbqQ8DFrwV9KaGefWKkBm7Dy'
+    };
+    var request =
+        http.Request('POST', Uri.parse('https://fcm.googleapis.com/fcm/send'));
+    request.body = json.encode({
+      "to":
+          "eyoR-qh7T9qpOUdazxwS7K:APA91bHeTCJd2okQSdvTfpzM7movbSjDDd5gBDnhx2Vrt9D9nSeO8gEtMXCsRH2mTaRgvVK8wfWSpf9h--zVUyFOQOAa4xH7LXDygd8yf8t-XUiEhKU1cbD8rqgCMvtV8W1lsxW-vr-G",
+      "notification": {"title": "Dipta Das", "body": "Hello from post man3"}
+    });
+    request.headers.addAll(headers);
+
+    http.StreamedResponse response = await request.send();
+
+    if (response.statusCode == 200) {
+      print(await response.stream.bytesToString());
+    } else {
+      print(response.reasonPhrase);
+    }
   }
 }

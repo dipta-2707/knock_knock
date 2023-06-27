@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:get/get.dart';
 import 'package:knockme/model/message_model.dart';
 import 'package:knockme/model/user_model.dart';
@@ -20,6 +21,9 @@ class KnockApis {
 
   // for Firebase fire store
   static FirebaseFirestore firestore = FirebaseFirestore.instance;
+
+  // for Firebase storage
+  static FirebaseStorage firebaseStorage = FirebaseStorage.instance;
 
   // get current user
   static User get currentUser => auth.currentUser!;
@@ -292,5 +296,13 @@ class KnockApis {
             snackBarType: SnackBarType.error);
       }
     }
+  }
+
+  /// get avatar images
+  static Future<String> getAvatar({required int photoSN}) {
+    return firebaseStorage
+        .ref()
+        .child('avatars/kma$photoSN.png')
+        .getDownloadURL();
   }
 }

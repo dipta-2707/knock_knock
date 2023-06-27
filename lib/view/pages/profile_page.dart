@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:knockme/api/api.dart';
@@ -34,7 +35,61 @@ class ProfilePage extends GetView<ProfileController> {
                     width: 30.0,
                     height: 30.0,
                     child: IconButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        controller.loadTheAvatars();
+
+                        showModalBottomSheet<void>(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return Container(
+                              height: 200,
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 20.0, vertical: 12.0),
+                              child: Obx(
+                                () => !controller.isAvatarLoading
+                                    ? Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
+                                        mainAxisSize: MainAxisSize.max,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: <Widget>[
+                                          const Text('Choose your avatar'),
+                                          Expanded(
+                                            child: ListView.builder(
+                                              scrollDirection: Axis.horizontal,
+                                              itemCount:
+                                                  controller.avatarUrls.length,
+                                              itemBuilder: (context, index) {
+                                                return CachedNetworkImage(
+                                                  imageUrl:
+                                                      'https://firebasestorage.googleapis.com/v0/b/kncokme-d35b8.appspot.com/o/avatars%2Fkma17.png?alt=media&token=e01c0c79-16ef-451a-953f-e20e751384dd',
+                                                  placeholder: (context, url) =>
+                                                      const CircularProgressIndicator(),
+                                                  errorWidget: (context, url,
+                                                          error) =>
+                                                      const Icon(Icons.error),
+                                                );
+                                              },
+                                            ),
+                                          ),
+                                          ElevatedButton(
+                                            child: const Text('save'),
+                                            onPressed: () =>
+                                                Navigator.pop(context),
+                                          ),
+                                        ],
+                                      )
+                                    : const Center(
+                                        child: CircularProgressIndicator(
+                                          strokeWidth: 1.0,
+                                        ),
+                                      ),
+                              ),
+                            );
+                          },
+                        );
+                      },
                       icon: const Icon(
                         Icons.edit,
                         size: 14,

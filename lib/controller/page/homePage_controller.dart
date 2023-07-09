@@ -26,6 +26,8 @@ class HomePageController extends GetxController with WidgetsBindingObserver {
   @override
   void onClose() {
     WidgetsBinding.instance.removeObserver(this);
+    // this will give error when user signOut
+    KnockApis.updateActiveStatus(isOnline: false);
     super.onClose();
   }
 

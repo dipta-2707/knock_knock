@@ -103,4 +103,9 @@ class SignInController extends GetxController {
       }
     }
   }
+
+  // goto forget password page
+  void gotoForgetPassPage() {
+    Get.toNamed(RouteConfig.forgetPasswordPageRouteName);
+  }
 }

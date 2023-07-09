@@ -2,6 +2,7 @@ import 'package:get/get.dart';
 import 'package:knockme/bindings/addFriend_binding.dart';
 import 'package:knockme/bindings/all_friend_page_binding.dart';
 import 'package:knockme/bindings/chat_binding.dart';
+import 'package:knockme/bindings/forget_password_page_binding.dart';
 import 'package:knockme/bindings/homePage_binding.dart';
 import 'package:knockme/bindings/profile_binding.dart';
 import 'package:knockme/bindings/signUp_binding.dart';
@@ -10,6 +11,7 @@ import 'package:knockme/bindings/splash_binding.dart';
 import 'package:knockme/view/pages/add_friend_page.dart';
 import 'package:knockme/view/pages/all_friends_page.dart';
 import 'package:knockme/view/pages/chat_page.dart';
+import 'package:knockme/view/pages/forget_password_page.dart';
 import 'package:knockme/view/pages/home_page.dart';
 import 'package:knockme/view/pages/sigin_page.dart';
 import 'package:knockme/view/pages/signUp_page.dart';
@@ -27,6 +29,7 @@ class RouteConfig {
   static const String chatPageRouteName = '/chatPage';
   static const String addFriendPageRouteName = '/addFriendPage';
   static const String allFriendPageRouteName = '/allFriendPage';
+  static const String forgetPasswordPageRouteName = '/forgetPasswordPage';
   static final pages = [
     GetPage(
         name: splashPageRouteName,
@@ -66,5 +69,10 @@ class RouteConfig {
         page: () => const AllFriendPage(),
         binding: ALlFriendPageBinding(),
         transition: Transition.cupertino),
+    GetPage(
+        name: forgetPasswordPageRouteName,
+        page: () => const ForgetPasswordPage(),
+        binding: ForgetPasswordPageBinding(),
+        transition: Transition.cupertino)
   ];
 }

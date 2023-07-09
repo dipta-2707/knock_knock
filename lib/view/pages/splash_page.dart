@@ -8,11 +8,14 @@ class SplashPage extends GetView<SplashPageController> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return const Scaffold(
       body: Center(
-        child: Icon(
-          KnockMeIcon.mainLogo,
-          size: 48.0,
+        child: Hero(
+          tag: 'knock_me',
+          child: Icon(
+            KnockMeIcon.mainLogo,
+            size: 48.0,
+          ),
         ),
       ),
     );

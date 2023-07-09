@@ -352,7 +352,8 @@ class KnockApis {
   }
 
   /// sent push notification
-  static Future<void> sentPushNotification({required String message}) async {
+  static Future<void> sentPushNotification(
+      {required UserModel userModel, required String message}) async {
     var headers = {
       'Content-Type': 'application/json',
       'Authorization': ApiConfig.pushAuthKey
@@ -360,8 +361,7 @@ class KnockApis {
     var request =
         http.Request('POST', Uri.parse('https://fcm.googleapis.com/fcm/send'));
     request.body = json.encode({
-      "to":
-          "eyoR-qh7T9qpOUdazxwS7K:APA91bHeTCJd2okQSdvTfpzM7movbSjDDd5gBDnhx2Vrt9D9nSeO8gEtMXCsRH2mTaRgvVK8wfWSpf9h--zVUyFOQOAa4xH7LXDygd8yf8t-XUiEhKU1cbD8rqgCMvtV8W1lsxW-vr-G",
+      "to": userModel.pushToken,
       "notification": {"title": "Knock Me - ${me.name}", "body": message}
     });
     request.headers.addAll(headers);

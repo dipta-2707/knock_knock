@@ -1,10 +1,8 @@
-import 'dart:convert';
-
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:knockme/api/api.dart';
 import 'package:knockme/controller/page/homePage_controller.dart';
+import 'package:knockme/model/knock_me_icon_icons.dart';
 import 'package:knockme/model/user_model.dart';
 import 'package:knockme/view/widgets/user_tile.dart';
 
@@ -15,7 +13,7 @@ class HomePage extends GetView<HomePageController> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          leading: const Icon(Icons.message_outlined),
+          leading: const Icon(KnockMeIcon.mainLogo),
           title: const Text('Knock Me'),
           actions: [_popUpMenu()],
         ),

@@ -19,6 +19,11 @@ class ChatController extends GetxController {
     if (_messageTextController.text.isNotEmpty) {
       await KnockApis.setMessages(userModel, _messageTextController.text);
       KnockApis.addToChatList(userModel: userModel);
+      // sent push notification if not online
+      if (!userModel.isOnline) {
+        await KnockApis.sentPushNotification(
+            message: _messageTextController.text);
+      }
       _messageTextController.clear();
     } else {
       return;

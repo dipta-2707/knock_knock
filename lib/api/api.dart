@@ -5,10 +5,13 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
+import 'package:knockme/config/api_config.dart';
 import 'package:knockme/model/message_model.dart';
 import 'package:knockme/model/user_model.dart';
 import 'package:knockme/ults/snack_bars.dart';
+import 'package:http/http.dart' as http;
 
 class KnockApis {
   // collection name
@@ -349,27 +352,30 @@ class KnockApis {
   }
 
   /// sent push notification
-  static Future<void> sentPushNotification({required String message}) {
+  static Future<void> sentPushNotification({required String message}) async {
     var headers = {
       'Content-Type': 'application/json',
-      'Authorization':
-          'Bearer AAAANF9J7VA:APA91bEt2A4eHvV6cJ5Oeja7_0VijyodDZ62fQvIIBHMVqFDuK6otY6duTbx7NUfPApbjQW4WtO6zz84m9CSpVQu8a60zgN3DA13Yp7RFOoqiD6GyRUKcbqQ8DFrwV9KaGefWKkBm7Dy'
+      'Authorization': ApiConfig.pushAuthKey
     };
     var request =
         http.Request('POST', Uri.parse('https://fcm.googleapis.com/fcm/send'));
     request.body = json.encode({
       "to":
           "eyoR-qh7T9qpOUdazxwS7K:APA91bHeTCJd2okQSdvTfpzM7movbSjDDd5gBDnhx2Vrt9D9nSeO8gEtMXCsRH2mTaRgvVK8wfWSpf9h--zVUyFOQOAa4xH7LXDygd8yf8t-XUiEhKU1cbD8rqgCMvtV8W1lsxW-vr-G",
-      "notification": {"title": "Dipta Das", "body": "Hello from post man3"}
+      "notification": {"title": "Knock Me - ${me.name}", "body": message}
     });
     request.headers.addAll(headers);
 
     http.StreamedResponse response = await request.send();
 
     if (response.statusCode == 200) {
-      print(await response.stream.bytesToString());
+      if (kDebugMode) {
+        print(await response.stream.bytesToString());
+      }
     } else {
-      print(response.reasonPhrase);
+      if (kDebugMode) {
+        print(response.reasonPhrase);
+      }
     }
   }
 }
